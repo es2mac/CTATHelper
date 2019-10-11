@@ -10,62 +10,67 @@ import Cocoa
 
 class ViewController: NSViewController {
 
-    @IBOutlet var ruleNameField: NSTextField!
-    @IBOutlet var factNumberField: NSTextField!
-    @IBOutlet var matchNumberField: NSTextField!
+    @IBOutlet var stackView: NSStackView!
+
+    var allControls: [NSButton : (CommandType, NSTextField?)] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        populateControls(commands: allCommands)
     }
 
-    @IBAction func factNumberChanged(_ sender: NSTextField) {
-//        print("Fact number: \(sender.stringValue)")
-        // Maybe put it in user default...
+    @IBAction func toggleDisplay(_ sender: NSButton) {
+        if sender.state == .on {
+            self.view.window?.level = .floating
+        } else {
+            self.view.window?.level = .normal
+        }
     }
 
-//    @IBAction func clearConsole(_ sender: NSButton) {
-//        runCommand("clear()")
-//    }
+    func populateControls(commands: [CommandType]) {
+        assert(allControls.isEmpty)
 
-    @IBAction func printAgenda(_ sender: NSButton) {
-        runCommand("printAgenda()", prompt: "Agenda:")
+        for command in commands {
+            if let command = command as? OneParameterCommand {
+                // Initiate button and text field
+                let button = NSButton(title: command.name, target: nil, action: #selector(commandButtonClicked(sender:)))
+                let textField = NSTextField(string: command.parameter)
+
+                // Layout
+                let width: CGFloat = command.parameter.count > 2 ? 80 : 40
+                textField.addConstraint(textField.widthAnchor.constraint(equalToConstant: width))
+                let rowStackView = NSStackView(views: [button, textField])
+                rowStackView.setHuggingPriority(.init(rawValue: 749), for: .vertical)
+
+                // Add
+                stackView.addArrangedSubview(rowStackView)
+                allControls[button] = (command, textField)
+            } else {
+                // Initiate button
+                let button = NSButton(title: command.name, target: nil, action: #selector(commandButtonClicked(sender:)))
+
+                // Add
+                stackView.addArrangedSubview(button)
+                allControls[button] = (command, nil)
+            }
+        }
     }
 
-    @IBAction func printWhyNot(_ sender: NSButton) {
-        let ruleName = ruleNameField.stringValue
-        runCommand("whyNot(\\\"\(ruleName)\\\")", prompt: "Why not \\\\\\\"\(ruleName)\\\\\\\":")
-    }
+    @objc func commandButtonClicked(sender: NSButton) {
+        let controls = allControls[sender]!
+        let command: String
+        let prompt: String
 
-    @IBAction func printRules(_ sender: NSButton) {
-        runCommand("printRules()", prompt: "Rules:")
+        if var control = controls.0 as? OneParameterCommand {
+            control.parameter = controls.1!.stringValue
+            command = control.command
+            prompt = "\(control.name) \(control.parameter):"
+        } else {
+            command = controls.0.command
+            prompt = "\(controls.0.name):"
+        }
+        runCommand(command, prompt: prompt)
     }
-
-    @IBAction func printAllFacts(_ sender: NSButton) {
-        runCommand("printFacts()", prompt: "All Facts:")
-    }
-
-    @IBAction func printNumberedFact(_ sender: NSButton) {
-        let numberString = factNumberField.stringValue
-        runCommand("printFact(\(numberString))", prompt: "Fact \(numberString):")
-    }
-
-    @IBAction func getProblemFact(_ sender: NSButton) {
-        runCommand("console.log(getFact(\\\"problem\\\"))", prompt: "Problem Fact:")
-    }
-
-    @IBAction func printConflictTree(_ sender: NSButton) {
-        runCommand("printConflictTree()", prompt: "Conflict Tree:")
-    }
-
-    @IBAction func printNumberedMatch(_ sender: NSButton) {
-        let numberString = matchNumberField.stringValue
-        runCommand("printMatch(\(numberString))", prompt: "Match \(numberString):")
-    }
-
-    @IBAction func takeStep(_ sender: NSButton) {
-        runCommand("takeSteps()", prompt: "Take a step:")
-    }
-
 
     func runCommand(_ command: String, prompt: String? = nil) {
         let jsScript = (prompt.map({"console.log(\\\"\($0)\\\");"}) ?? "") + command
@@ -77,7 +82,7 @@ class ViewController: NSViewController {
         end tell
         """
 
-        print(rawScript)
+//        print(rawScript)
 
         var error: NSDictionary? = nil
         NSAppleScript(source: rawScript)?.executeAndReturnError(&error)

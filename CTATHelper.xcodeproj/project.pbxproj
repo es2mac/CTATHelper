@@ -11,7 +11,7 @@
 		DA235FE0233ED74E006434C6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA235FDF233ED74E006434C6 /* ViewController.swift */; };
 		DA235FE2233ED751006434C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA235FE1233ED751006434C6 /* Assets.xcassets */; };
 		DA235FE5233ED751006434C6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA235FE3233ED751006434C6 /* Main.storyboard */; };
-		DA235FF0233EE907006434C6 /* StayOnTopWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA235FEF233EE907006434C6 /* StayOnTopWindow.swift */; };
+		DA5AF736235033ED00AF5A6D /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AF735235033ED00AF5A6D /* Command.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,7 +22,7 @@
 		DA235FE4233ED751006434C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DA235FE6233ED751006434C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA235FE7233ED751006434C6 /* CTATHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CTATHelper.entitlements; sourceTree = "<group>"; };
-		DA235FEF233EE907006434C6 /* StayOnTopWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StayOnTopWindow.swift; sourceTree = "<group>"; };
+		DA5AF735235033ED00AF5A6D /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +57,7 @@
 			children = (
 				DA235FDD233ED74E006434C6 /* AppDelegate.swift */,
 				DA235FDF233ED74E006434C6 /* ViewController.swift */,
-				DA235FEF233EE907006434C6 /* StayOnTopWindow.swift */,
+				DA5AF735235033ED00AF5A6D /* Command.swift */,
 				DA235FE1233ED751006434C6 /* Assets.xcassets */,
 				DA235FE3233ED751006434C6 /* Main.storyboard */,
 				DA235FE6233ED751006434C6 /* Info.plist */,
@@ -137,8 +137,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA235FE0233ED74E006434C6 /* ViewController.swift in Sources */,
-				DA235FF0233EE907006434C6 /* StayOnTopWindow.swift in Sources */,
 				DA235FDE233ED74E006434C6 /* AppDelegate.swift in Sources */,
+				DA5AF736235033ED00AF5A6D /* Command.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
