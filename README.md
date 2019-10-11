@@ -12,3 +12,7 @@ are basic CTAT Nools Model Tracer debugging commands, e.g.:
 - Print facts
 - Print conflict tree
 - Take a step
+
+![Helper screenshot](Assets/screenshot.png "Screenshot")
+
+
